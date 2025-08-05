@@ -2,15 +2,69 @@
 <html>
 <head>
     <title>Order Placed</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 30px 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        h2 {
+            color: #28a745;
+            margin-bottom: 20px;
+        }
+
+        p {
+            margin: 10px 0;
+            color: #333;
+            font-size: 16px;
+        }
+
+        strong {
+            color: #555;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: background-color 0.3s ease;
+        }
+
+        a:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
-    <h2>Order Placed Successfully!</h2>
-    <p><strong>Order ID:</strong> {{.OrderID}}</p>
-    <p><strong>Contact:</strong> {{.Contact}}</p>
-    <p><strong>Size:</strong> {{.Size}}</p>
-    <p><strong>Quantity:</strong> {{.Quantity}}</p>
-    <p><strong>Total Price:</strong> LKR {{.TotalPrice}}</p>
-    <br>
-    <a href="/place-order">Place Another Order</a>
+    <div class="container">
+        <h2>Order Placed Successfully!</h2>
+        <p><strong>Order ID:</strong> {{.OrderID}}</p>
+        <p><strong>Contact:</strong> {{.CustomerID}}</p>
+        <p><strong>Size:</strong> {{.Size}}</p>
+        <p><strong>Quantity:</strong> {{.Quantity}}</p>
+        <p><strong>Total Price:</strong> LKR {{.TotalAmount}}</p>
+
+
+        <a href="/place-order">Place Another Order</a>
+    </div>
 </body>
 </html>

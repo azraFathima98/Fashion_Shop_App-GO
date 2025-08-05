@@ -1,4 +1,24 @@
 <h2>All Orders</h2>
-{{range .}}
-<p>{{.OrderID}} - {{.CustomerID}} - {{.Size}} - Qty: {{.Quantity}} - LKR {{.TotalAmount}} - {{.Status}}</p>
-{{end}}
+<table border="1" cellpadding="8" cellspacing="0" style="border-collapse: collapse; width: 100%;">
+    <tr>
+        <th>Order ID</th>
+        <th>Customer ID</th>
+        <th>Size</th>
+        <th>Quantity</th>
+        <th>Total Amount (LKR)</th>
+        <th>Status</th>
+    </tr>
+    {{range .}}
+    <tr>
+        <td>{{.OrderID}}</td>
+        <td>{{.CustomerID}}</td>
+        <td>{{.Size}}</td>
+        <td>{{.Quantity}}</td>
+        <td>{{printf "%.2f" .TotalAmount}}</td>
+        <td>{{.Status}}</td>
+    </tr>
+    {{end}}
+</table>
+
+<br>
+<a href="/">&#8592; Back to Home</a> | <a href="/place-order">Place New Order</a>
