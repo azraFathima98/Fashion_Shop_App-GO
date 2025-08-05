@@ -159,6 +159,12 @@ func deleteOrderPage(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	var err error
+    db, err = sql.Open("mysql", "root:1234@tcp(127.0.0.1:3306)/fashion_shop")
+    if err != nil {
+        panic(err)
+    }
+    defer db.Close()
 	http.HandleFunc("/", home)
 	http.HandleFunc("/place-order", placeOrderPage)
 	http.HandleFunc("/search-customer", searchCustomerPage)
