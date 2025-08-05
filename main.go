@@ -29,9 +29,11 @@ func generateOrderID() string {
     return fmt.Sprintf("ODR#%05d", lastOrderNumber)
 }
 
-func homePage(w http.ResponseWriter, r *http.Request) {
-    http.Redirect(w, r, "/place-order", http.StatusSeeOther)
+func home(w http.ResponseWriter, r *http.Request) {
+    tmpl := template.Must(template.ParseFiles("templates/home.html"))
+    tmpl.Execute(w, nil)
 }
+
 
 func placeOrderPage(w http.ResponseWriter, r *http.Request) {
     if r.Method == http.MethodGet {
@@ -126,7 +128,4 @@ func main() {
 }
 
 
-func home(w http.ResponseWriter, r *http.Request) {
-    tmpl := template.Must(template.ParseFiles("templates/home.html"))
-    tmpl.Execute(w, nil)
-}
+
