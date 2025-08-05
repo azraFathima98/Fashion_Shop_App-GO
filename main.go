@@ -117,10 +117,10 @@ func deleteOrder(w http.ResponseWriter, r *http.Request) {
 
 func main() {
     http.HandleFunc("/", home) 
-    http.HandleFunc("/place-order", placeOrderPage)
+    http.HandleFunc("/form", placeOrderPage)
     http.HandleFunc("/search-customer", searchCustomer)
     http.HandleFunc("/search-order", searchOrder)
-    http.HandleFunc("/view-reports", viewReports)
+    http.HandleFunc("/reports", viewReports)
     http.HandleFunc("/change-status", changeStatus)
     http.HandleFunc("/delete-order", deleteOrder)
     fmt.Println("Server running at http://localhost:8080")
