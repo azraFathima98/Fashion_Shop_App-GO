@@ -5,6 +5,9 @@ import (
 	"html/template"
 	"net/http"
 	"strconv"
+	"strings"
+	"database/sql"
+    _ "github.com/go-sql-driver/mysql"
 )
 
 type Order struct {
@@ -22,7 +25,7 @@ var priceMap = map[string]float64{
 	"XS": 600, "S": 800, "M": 900, "L": 1000, "XL": 1100, "XXL": 1200,
 }
 var statuses = []string{"PROCESSING", "DELIVERING", "DELIVERED"}
-
+var db *sql.DB
 func generateOrderID() string {
 	lastOrderNumber++
 	return fmt.Sprintf("ODR#%05d", lastOrderNumber)
@@ -78,7 +81,7 @@ func searchOrderPage(w http.ResponseWriter, r *http.Request) {
 		tmpl := template.Must(template.ParseFiles("templates/search_order_form.html"))
 		tmpl.Execute(w, nil)
 	} else if r.Method == http.MethodPost {
-		orderID := r.FormValue("orderid")
+		orderID := strings.TrimSpace(r.FormValue("orderid"))
 		for _, o := range orders {
 			if o.OrderID == orderID {
 				tmpl := template.Must(template.ParseFiles("templates/search_order_results.html"))
@@ -91,10 +94,26 @@ func searchOrderPage(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func viewReports(w http.ResponseWriter, r *http.Request) {
-	tmpl := template.Must(template.ParseFiles("templates/reports.html"))
-	tmpl.Execute(w, orders)
+type ReportData struct {
+    Orders      []Order
+    TotalOrders int
+    TotalAmount float64
 }
+
+func viewReports(w http.ResponseWriter, r *http.Request) {
+    total := 0.0
+    for _, o := range orders {
+        total += o.TotalAmount
+    }
+    data := ReportData{
+        Orders:      orders,
+        TotalOrders: len(orders),
+        TotalAmount: total,
+    }
+    tmpl := template.Must(template.ParseFiles("templates/reports.html"))
+    tmpl.Execute(w, data)
+}
+
 
 func changeStatusPage(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodGet {
@@ -149,6 +168,6 @@ func main() {
 	http.HandleFunc("/delete-order", deleteOrderPage)
 	
 	fmt.Println("Server running at http://localhost:8080")
-	fmt.Println("Open your browser and navigate to http://localhost:8080")
+	
 	http.ListenAndServe(":8080", nil)
 }

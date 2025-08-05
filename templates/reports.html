@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -191,61 +191,57 @@
 </head>
 <body>
     <div class="container">
-        <h2>📊 All Orders Report</h2>
-        
-        {{if .}}
-        <div class="stats-container">
-            <div class="stat-card">
-                <div class="stat-number">{{len .}}</div>
-                <div class="stat-label">Total Orders</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number">
-                    {{$total := 0.0}}
-                    {{range .}}{{$total = add $total .TotalAmount}}{{end}}
-                    {{printf "%.0f" $total}}
-                </div>
-                <div class="stat-label">Total Revenue (LKR)</div>
-            </div>
-        </div>
+         <h2>📊 All Orders Report</h2>
 
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>🆔 Order ID</th>
-                        <th>📱 Customer ID</th>
-                        <th>👕 Size</th>
-                        <th>📦 Quantity</th>
-                        <th>💰 Amount (LKR)</th>
-                        <th>📋 Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {{range .}}
-                    <tr>
-                        <td>{{.OrderID}}</td>
-                        <td>{{.CustomerID}}</td>
-                        <td>{{.Size}}</td>
-                        <td>{{.Quantity}}</td>
-                        <td>{{printf "%.2f" .TotalAmount}}</td>
-                        <td>
-                            <span class="status {{if eq .Status "PROCESSING"}}processing{{else if eq .Status "DELIVERING"}}delivering{{else}}delivered{{end}}">
-                                {{.Status}}
-                            </span>
-                        </td>
-                    </tr>
-                    {{end}}
-                </tbody>
-            </table>
-        </div>
-        {{else}}
-        <div class="no-orders">
-            <div class="no-orders-icon">📭</div>
-            <p>No orders found in the system.</p>
-            <p>Start by placing your first order!</p>
-        </div>
-        {{end}}
+{{if gt .TotalOrders 0}}
+<div class="stats-container">
+    <div class="stat-card">
+        <div class="stat-number">{{.TotalOrders}}</div>
+        <div class="stat-label">Total Orders</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">{{printf "%.0f" .TotalAmount}}</div>
+        <div class="stat-label">Total Revenue (LKR)</div>
+    </div>
+</div>
+
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th>🆔 Order ID</th>
+                <th>📱 Customer ID</th>
+                <th>👕 Size</th>
+                <th>📦 Quantity</th>
+                <th>💰 Amount (LKR)</th>
+                <th>📋 Status</th>
+            </tr>
+        </thead>
+        <tbody>
+              {{range .Orders}}
+            <tr>
+                <td>{{.OrderID}}</td>
+                <td>{{.CustomerID}}</td>
+                <td>{{.Size}}</td>
+                <td>{{.Quantity}}</td>
+                <td>{{printf "%.2f" .TotalAmount}}</td>
+                <td>
+                    <span class="status {{if eq .Status "PROCESSING"}}processing{{else if eq .Status "DELIVERING"}}delivering{{else}}delivered{{end}}">
+                        {{.Status}}
+                    </span>
+                </td>
+            </tr>
+            {{end}}
+        </tbody>
+    </table>
+</div>
+{{else}}
+<div class="no-orders">
+    <div class="no-orders-icon">📭</div>
+    <p>No orders found in the system.</p>
+    <p>Start by placing your first order!</p>
+</div>
+{{end}}
 
         <div class="action-buttons">
             <a href="/place-order" class="btn btn-primary">Place New Order</a>
