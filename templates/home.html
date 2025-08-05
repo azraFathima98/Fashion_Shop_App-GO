@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Order Management System - Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        h1 {
+            margin-bottom: 40px;
+            color: #333;
+        }
+
+        nav {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 250px;
+        }
+
+        a {
+            background-color: #007BFF;
+            color: white;
+            padding: 12px;
+            text-decoration: none;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            display: block;
+        }
+
+        a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Order Management System</h1>
+    <nav>
+        <a href="/place-order">Place Order</a>
+        <a href="/search-customer">Search Customer Orders</a>
+        <a href="/search-order">Search Order</a>
+        <a href="/view-reports">View Reports</a>
+        <a href="/change-status">Change Order Status</a>
+        <a href="/delete-order">Delete Order</a>
+    </nav>
+</body>
+</html>

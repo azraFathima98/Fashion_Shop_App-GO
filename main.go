@@ -115,6 +115,7 @@ func deleteOrder(w http.ResponseWriter, r *http.Request) {
 
 func main() {
     http.HandleFunc("/", homePage)
+	http.HandleFunc("/", homePage)  
     http.HandleFunc("/place-order", placeOrderPage)
     http.HandleFunc("/search-customer", searchCustomer)
     http.HandleFunc("/search-order", searchOrder)
@@ -123,4 +124,8 @@ func main() {
     http.HandleFunc("/delete-order", deleteOrder)
     fmt.Println("Server running at http://localhost:8080")
     http.ListenAndServe(":8080", nil)
+}
+func home(w http.ResponseWriter, r *http.Request) {
+    tmpl := template.Must(template.ParseFiles("templates/home.html"))
+    tmpl.Execute(w, nil)
 }
