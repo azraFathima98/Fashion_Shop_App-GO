@@ -1,0 +1,4 @@
+<h2>All Orders</h2>
+{{range .}}
+<p>{{.OrderID}} - {{.CustomerID}} - {{.Size}} - Qty: {{.Quantity}} - LKR {{.TotalAmount}} - {{.Status}}</p>
+{{end}}

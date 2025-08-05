@@ -1,0 +1,6 @@
+<h2>Customer Orders</h2>
+{{range .}}
+<p>Order ID: {{.OrderID}}, Size: {{.Size}}, Qty: {{.Quantity}}, Amount: {{.TotalAmount}}, Status: {{.Status}}</p>
+{{else}}
+<p>No orders found for this customer.</p>
+{{end}}
