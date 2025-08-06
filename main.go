@@ -52,10 +52,10 @@ func placeOrderPage(w http.ResponseWriter, r *http.Request) {
 			Size:        size,
 			Quantity:    qty,
 			TotalAmount: amount,
-			Status:      statuses[0], // PROCESSING
+			Status:      statuses[0], 
 		}
 
-		// ✅ SQL INSERT එක වෙනුවට in-memory list එකට add කරනවා
+		
 		orders = append(orders, order)
 
 		tmpl := template.Must(template.ParseFiles("templates/success.html"))
@@ -70,7 +70,7 @@ func searchCustomerPage(w http.ResponseWriter, r *http.Request) {
 	} else if r.Method == http.MethodPost {
 		contact := r.FormValue("contact")
 
-		// ✅ Search from in-memory orders slice
+		
 		var found []Order
 		for _, o := range orders {
 			if o.CustomerID == contact {
@@ -108,13 +108,12 @@ func searchOrderPage(w http.ResponseWriter, r *http.Request) {
 		}
 
 		if foundOrder == nil {
-			// Order not found
+			
 			tmpl := template.Must(template.ParseFiles("templates/order_not_found.html"))
 			tmpl.Execute(w, nil)
 			return
 		}
 
-		// Order found, display it
 		tmpl := template.Must(template.ParseFiles("templates/search_order_results.html"))
 		tmpl.Execute(w, foundOrder)
 	}
@@ -152,13 +151,13 @@ func viewReports(w http.ResponseWriter, r *http.Request) {
 
 func changeStatusPage(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodGet {
-		// Show all orders from in-memory slice
+		
 		tmpl := template.Must(template.ParseFiles("templates/change_status_form.html"))
 		tmpl.Execute(w, orders)
 	} else if r.Method == http.MethodPost {
 		id := r.FormValue("orderid")
 
-		// Find the order in the in-memory slice
+		
 		var orderIndex = -1
 		for i, o := range orders {
 			if o.OrderID == id {
@@ -168,13 +167,13 @@ func changeStatusPage(w http.ResponseWriter, r *http.Request) {
 		}
 
 		if orderIndex == -1 {
-			// Order not found
+			
 			tmpl := template.Must(template.ParseFiles("templates/status_error.html"))
 			tmpl.Execute(w, nil)
 			return
 		}
 
-		// Update the status based on current status
+		
 		currentStatus := orders[orderIndex].Status
 		var newStatus string
 
@@ -183,16 +182,16 @@ func changeStatusPage(w http.ResponseWriter, r *http.Request) {
 		} else if currentStatus == "DELIVERING" {
 			newStatus = "DELIVERED"
 		} else {
-			// Cannot update status further
+			
 			tmpl := template.Must(template.ParseFiles("templates/status_error.html"))
 			tmpl.Execute(w, nil)
 			return
 		}
 
-		// Update in-memory order status
+		
 		orders[orderIndex].Status = newStatus
 
-		// Show updated order details
+		
 		tmpl := template.Must(template.ParseFiles("templates/status_updated.html"))
 		tmpl.Execute(w, orders[orderIndex])
 	}
@@ -201,13 +200,13 @@ func changeStatusPage(w http.ResponseWriter, r *http.Request) {
 
 func deleteOrderPage(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodGet {
-		// Show all orders from in-memory slice
+		
 		tmpl := template.Must(template.ParseFiles("templates/delete_order_form.html"))
 		tmpl.Execute(w, orders)
 	} else if r.Method == http.MethodPost {
 		id := r.FormValue("orderid")
 
-		// Find the index of the order to delete
+		
 		index := -1
 		for i, o := range orders {
 			if o.OrderID == id {
@@ -217,16 +216,16 @@ func deleteOrderPage(w http.ResponseWriter, r *http.Request) {
 		}
 
 		if index == -1 {
-			// Order not found
+			
 			tmpl := template.Must(template.ParseFiles("templates/order_not_found.html"))
 			tmpl.Execute(w, nil)
 			return
 		}
 
-		// Remove order from slice
+		
 		orders = append(orders[:index], orders[index+1:]...)
 
-		// Show deleted confirmation
+		
 		tmpl := template.Must(template.ParseFiles("templates/order_deleted.html"))
 		tmpl.Execute(w, struct{ OrderID string }{OrderID: id})
 	}
@@ -234,11 +233,11 @@ func deleteOrderPage(w http.ResponseWriter, r *http.Request) {
 
 
 func main() {
-	// DB connection code removed, using in-memory data only
+	
 
 	http.HandleFunc("/", home)
 	http.HandleFunc("/place-order", placeOrderPage)
-	http.HandleFunc("/search-customer", searchCustomerPage) // If implemented, otherwise remove
+	http.HandleFunc("/search-customer", searchCustomerPage) 
 	http.HandleFunc("/search-order", searchOrderPage)
 	http.HandleFunc("/reports", viewReports)
 	http.HandleFunc("/change-status", changeStatusPage)
